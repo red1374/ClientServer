@@ -1,2 +1,2 @@
 # ClientServer
-Client Server applications cours
+Client Server applications course
