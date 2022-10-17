@@ -3,6 +3,8 @@
 import json
 from common.variables import MAX_PACKAGE_LENGTH, ENCODING
 
+from mainapp.errors import NonDictInputError
+
 
 def get_message(client):
     """
@@ -30,7 +32,8 @@ def send_message(sock, message):
     далее превращает строку в байты и отправляет.
     """
     if not isinstance(message, dict):
-        raise TypeError
+        raise NonDictInputError
+
     js_message = json.dumps(message)
     encoded_message = js_message.encode(ENCODING)
     sock.send(encoded_message)
