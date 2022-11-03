@@ -3,10 +3,12 @@
 import json
 import os
 import sys
+import time
+from collections import defaultdict
 
 sys.path.append(os.path.join(os.getcwd(), '..'))
 
-from common.variables import MAX_PACKAGE_LENGTH, ENCODING
+from common.variables import MAX_PACKAGE_LENGTH, ENCODING, MESSAGE, TIME, ACTION, ACCOUNT_NAME, MESSAGE_TEXT, USER
 from common.decorators import Log
 
 from errors import NonDictInputError
@@ -19,7 +21,6 @@ def get_message(client):
     Принимает байты, выдаёт словарь, если принято что-то
     другое возвращает ValueError (ошибку значения)
     """
-
     encoded_response = client.recv(MAX_PACKAGE_LENGTH)
     if isinstance(encoded_response, bytes):
         json_response = encoded_response.decode(ENCODING)
@@ -45,3 +46,31 @@ def send_message(sock, message):
     js_message = json.dumps(message)
     encoded_message = js_message.encode(ENCODING)
     sock.send(encoded_message)
+
+
+@Log
+def get_params():
+    """ Get params dict from args list """
+    if len(sys.argv) == 0:
+        return None
+
+    params = defaultdict()
+    params_len = len(sys.argv)
+    for index, param in enumerate(sys.argv):
+        if param[0] == '-' and params_len > index + 1:
+            params[param[1:]] = '' if sys.argv[index + 1][0] == '-' else sys.argv[index + 1]
+
+    return params
+
+
+@Log
+def get_message_dict(message='', account_name='Guest'):
+    """ Generate message dict """
+    return {
+        ACTION: MESSAGE,
+        TIME: time.time(),
+        USER: {
+            ACCOUNT_NAME: account_name
+        },
+        MESSAGE_TEXT: message
+    }
