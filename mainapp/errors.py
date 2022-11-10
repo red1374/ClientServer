@@ -17,7 +17,7 @@ class NonDictInputError(Exception):
         self.parameter = parameter
 
     def __str__(self):
-        return f'Function argument must be a dict type! Byt {type(self.parameter)} given'
+        return f'Function argument must be a dict type! But {type(self.parameter)} given'
 
 
 class ReqFieldMissingError(Exception):
@@ -29,3 +29,12 @@ class ReqFieldMissingError(Exception):
 
     def __str__(self):
         return f'There is no \'{self.missing_field}\' field at given dict'
+
+
+class ServerError(Exception):
+    """ Server error exception"""
+    def __init__(self, text):
+        self.text = text
+
+    def __str__(self):
+        return self.text
