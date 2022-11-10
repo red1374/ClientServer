@@ -36,9 +36,8 @@ def get_message(client):
 @Log
 def send_message(sock, message):
     """
-    Утилита кодирования и отправки сообщения:
-    принимает для отправки словарь, получает из него строку,
-    далее превращает строку в байты и отправляет.
+    Function to encode and send message to a recipient.
+    Converts a dict to a string, then make from it bytes and send it to recipient
     """
     if not isinstance(message, dict):
         raise NonDictInputError
