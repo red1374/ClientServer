@@ -1,11 +1,18 @@
 """Утилиты"""
 
 import json
+import os
+import sys
+
+sys.path.append(os.path.join(os.getcwd(), '..'))
+
 from common.variables import MAX_PACKAGE_LENGTH, ENCODING
+from common.decorators import Log
 
-from mainapp.errors import NonDictInputError
+from errors import NonDictInputError
 
 
+@Log
 def get_message(client):
     """
     Утилита приёма и декодирования сообщения.
@@ -25,6 +32,7 @@ def get_message(client):
     raise ValueError
 
 
+@Log
 def send_message(sock, message):
     """
     Утилита кодирования и отправки сообщения:
