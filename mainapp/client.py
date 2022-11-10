@@ -32,7 +32,7 @@ def process_ans(message):
     :return:
     '''
     if RESPONSE in message:
-        if message[RESPONSE] == 200:
+        if int(message[RESPONSE]) == 200:
             return '200 : OK'
         return f'400 : {message[ERROR]}'
     raise ValueError
